@@ -1,0 +1,12 @@
+df %>%
+  filter(df$IFN == "FALSE", hpi == 24, MOI > 0  ) %>%
+  group_by(Haplotype, Clone) %>%
+  summarize(mean_gfp = mean(GFP),
+    sd_gfp = sd(GFP)) %>%
+  ggplot(aes(x = Haplotype, y = mean_gfp, color = Haplotype))+
+  geom_point(size = 3, position = position_dodge(0.5), aes(group = as.factor(Clone)))+
+  geom_errorbar(position = position_dodge(0.5), aes(group = as.factor(Clone),
+                                                    x = Haplotype,
+                     ymin = mean_gfp - sd_gfp,
+                     ymax = mean_gfp + sd_gfp), color = "black", width = 0.05, alpha = 0.5
+                     ) 
